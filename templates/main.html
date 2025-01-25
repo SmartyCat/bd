@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Главная страница</title>
+    </head>
+    <body>
+        {% if movies %}
+            <table border="2px">
+                <thead>
+                    <tr>
+                        <th>Название фильма</th>
+                        <th>Год</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in movies %}
+                    <tr>
+                        <td>{{m[0]}}</td>
+                        <td>{{m[1]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>    
+        {% else %}
+            <h1>Пока здесь ничего нету</h1>
+        {% endif %}
+        <a href="/add">Добавить фильм</a>
+    </body>
+</html>

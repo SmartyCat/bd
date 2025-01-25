@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Добавить запись</title>
+    </head>
+    <body>
+        <a href="/">На главную</a>
+        <form action="/add" method="POST">
+            <label>Вставьте название фильма</label><input name="title">
+            <br>
+            <label>Вставьте год выпуска фильма</label><input name="year">
+            <br>
+            <button>Отправить</button>
+        </form>
+        {% for i in get_flashed_messages() %}
+            {{i}}
+        {% endfor %}
+    </body>
+</html>
