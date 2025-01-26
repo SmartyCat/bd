@@ -2,19 +2,19 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>Добавить запись</title>
+        <title>Добавление данных</title>
     </head>
     <body>
-        <a href="/">На главную</a>
         <form action="/add" method="POST">
-            <label>Вставьте название фильма</label><input name="title">
+            <label>Введите свое имя</label><input name="name">
             <br>
-            <label>Вставьте год выпуска фильма</label><input name="year">
+            <label>Введите свой возраст</label><input name="age">
             <br>
             <button>Отправить</button>
         </form>
-        {% for i in get_flashed_messages() %}
-            {{i}}
+        {% for m in get_flashed_messages() %}
+            {{m}}
         {% endfor %}
+        <a href="/">Вернутся на главную</a>
     </body>
 </html>

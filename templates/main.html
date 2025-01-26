@@ -5,26 +5,26 @@
         <title>Главная страница</title>
     </head>
     <body>
-        {% if movies %}
+        {% if users %}
             <table border="2px">
                 <thead>
                     <tr>
-                        <th>Название фильма</th>
-                        <th>Год</th>
+                        <th>Имя</th>
+                        <th>Возраст</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for m in movies %}
-                    <tr>
-                        <td>{{m[0]}}</td>
-                        <td>{{m[1]}}</td>
-                    </tr>
+                    {% for u in users %}
+                        <tr>
+                            <td>{{u[0]}}</td>
+                            <td>{{u[1]}}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
-            </table>    
+            </table>
         {% else %}
-            <h1>Пока здесь ничего нету</h1>
+            <h1>Нету ни одного пользователя</h1>
         {% endif %}
-        <a href="/add">Добавить фильм</a>
-    </body>
+        <a href="/add">Добавить запись</a>
+    </body>    
 </html>
