@@ -2,19 +2,20 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>Добавление данных</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Добавление записи</title>
     </head>
     <body>
+        <a href="/">Вернуться на главную</a>
         <form action="/add" method="POST">
-            <label>Введите свое имя</label><input name="name">
+            <label>Введите название задачи</label>
             <br>
-            <label>Введите свой возраст</label><input name="age">
+            <textarea name="description"></textarea>
             <br>
             <button>Отправить</button>
         </form>
         {% for m in get_flashed_messages() %}
             {{m}}
         {% endfor %}
-        <a href="/">Вернутся на главную</a>
     </body>
 </html>

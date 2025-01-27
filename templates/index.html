@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Главная страница</title>
+        <meta name="description" content="Первый проект начинающего программиста">
+        <meta name="keywords" content="программрование, пет-проект, todo-list">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        {% if tasks %}
+            <table border="2px">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Состояние</th>
+                        <th>Удалить задачу</th>
+                        <th>Изменить задачу</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in tasks %}
+                        <tr>
+                            <td>{{t[1]}}</td>
+                            <td>{{t[2]}}</td>
+                            <td><a href="/delete/{{ t[0] }}">Удалить</a></td>
+                            <td><a href="/complete/{{ t[0] }}">Завершить</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2>Список дел пуст</h2>
+        {% endif %}
+        <a href="/add">Добавить запись</a>
+    </body>
+</html>
