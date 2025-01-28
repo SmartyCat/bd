@@ -6,16 +6,20 @@
         <meta name="description" content="Первый проект начинающего программиста">
         <meta name="keywords" content="программрование, пет-проект, todo-list">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
     </head>
     <body>
         {% if tasks %}
-            <table border="2px">
+            <table class="task-table">
                 <thead>
                     <tr>
                         <th>Название</th>
                         <th>Состояние</th>
+                        <th>Время начала задачи</th>
+                        <td>Дедлайн</td>
                         <th>Удалить задачу</th>
                         <th>Изменить задачу</th>
+                        <th>Редактировать задачу</th>                     
                     </tr>
                 </thead>
                 <tbody>
@@ -23,15 +27,19 @@
                         <tr>
                             <td>{{t[1]}}</td>
                             <td>{{t[2]}}</td>
-                            <td><a href="/delete/{{ t[0] }}">Удалить</a></td>
-                            <td><a href="/complete/{{ t[0] }}">Завершить</a></td>
+                            <td>{{t[3]}}</td>
+                            <td>{{t[4]}}</td>
+                            <td><a href="/delete/{{ t[0] }}" class="btn delete-btn">Удалить</a></td>
+                            <td><a href="/complete/{{ t[0] }}" class="btn complete-btn">Завершить</a></td>
+                            <td><a href="/edit/{{ t[0] }}">Редактировать</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <h2>Список дел пуст</h2>
+            <h2 class="empty">Список дел пуст</h2>
         {% endif %}
-        <a href="/add">Добавить запись</a>
+        <a href="/add" class="btn add-btn">Добавить запись</a>
+        <br>
     </body>
 </html>

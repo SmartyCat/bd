@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+h1,h2 {
+    font-size: 1.8em;
+    text-align: center;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+    transition: backround-color 0.3 ease;
+
+}
+
+.add-btn {
+    background-color: #4CAF50;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+
+.complete-btn{
+    background-color: #2196;
+    
+}
+
+.complete-btn:hover {
+    background-color: #2196;
+}
+
+.back-btn {
+    background-color: #777;
+}
+
+.back-btn:hover {
+    background-color: #666;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th,td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #4CAF50;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tbody tr:ntn-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+form {
+    width: 50%;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.message {
+    color: #ff5722;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+}
+
+.error-title {
+    font-size: 2em;
+    color: #f44336;
+    text-align: center;
+}
+
+.error-message {
+    color: #888;
+    text-align: center;
+}

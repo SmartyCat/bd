@@ -3,18 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>Добавление записи</title>
+        <title>Редактирование задачи</title>
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
     </head>
     <body>
+
         <a href="/" class="btn back-btn">Вернуться на главную</a>
-        <form action="/add" method="POST" class="task-form">
-            <label for="description">Введите название задачи</label>
+        <form action="/edit/{{ task_id }}" method="POST" class="task-form">
+            <label for="description">Введите изминения задачи</label>
             <br>
-            <textarea name="description" id="description"></textarea>
+            <textarea name="desc" id="desc">{% for i in form_data.desc %}{{i}}{% endfor %}</textarea>
             <br>
-            <label>Введите дату дедлайна</label><input name="deadline" placeholder="YYYY-MM-DD-HH">
-            <button class="btn-submit-btn">Отправить</button>
+            <button class="btn-submit-btn">Изменить</button>
         </form>
         {% for m in get_flashed_messages() %}
             <div class="message">{{m}}</div>

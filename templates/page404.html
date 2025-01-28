@@ -4,9 +4,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>Страница не найдена</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
     </head>
     <body>
-        <h1>Ивините, но страница не найдена</h1>
-        <a href="/">Вернутся на главную страницу</a>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-message"> Извините но такой страницы не существует</p>
+        <a href="/" class="btn back-btn">Вернутся на главную страницу</a>
     </body>
 </html>
