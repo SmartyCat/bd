@@ -11,11 +11,12 @@ from flask_login import (
 )
 from UserLogin import UserLogin
 from fdatabase import FDataBase
+import os
 
 
 DATABASE = "tasks.db"
-SECRET_KEY = "1234qwer"
-userlogin = None
+SECRET_KEY = os.urandom(24)
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 login_manager = LoginManager(app)
@@ -56,7 +57,7 @@ def close_db(error):
 
 @app.route("/", methods=["POST", "GET"])
 def index():
-    db=get_db()
+    db = get_db()
     if not current_user.is_authenticated:
         return render_template("unlogin.html")
 
@@ -67,12 +68,12 @@ def index():
 @app.route("/add", methods=["POST", "GET"])
 @login_required
 def add():
-    db=get_db()
+    db = get_db()
     if request.method == "POST":
         description = request.form.get("description")
         deadline = request.form.get("deadline")
         if description and deadline:
-            FDataBase(db).addTask(description,deadline,current_user.get_id())
+            FDataBase(db).addTask(description, deadline, current_user.get_id())
             flash("Данные успешно отправлены")
         else:
             flash("Данные введены некорректно")
@@ -80,8 +81,9 @@ def add():
 
 
 @app.route("/delete/<int:task_id>", methods=["POST", "GET"])
+@login_required
 def delete(task_id):
-    db=get_db()
+    db = get_db()
     FDataBase(db).deleteTask(task_id)
     return redirect("/")
 
@@ -97,12 +99,16 @@ def complete(task_id):
 def edit(task_id):
     db = get_db()
     form_data = request.form.to_dict()
-    form_data["desc"] = FDataBase(db).getDescription(task_id)
+    desc = FDataBase(db).getDescription(task_id)
+    if not desc:
+        flash("Задача не найдена")
+        return redirect("/")
+    form_data["desc"] = desc
     if request.method == "POST":
         result = request.form.get("desc")
         new_deadline = request.form.get("new_deadline")
         if result and new_deadline:
-            FDataBase(db).editTask(result,new_deadline,task_id)
+            FDataBase(db).editTask(result, new_deadline, task_id)
             return redirect("/")
         else:
             flash("ошибка")
@@ -118,10 +124,12 @@ def registr():
         email = request.form.get("email")
         password = request.form.get("password")
         password2 = request.form.get("password2")
-        if email and password == password2:
+        if email and password and password == password2:
             pas = generate_password_hash(password)
-            FDataBase(db).addUser(email,pas)
+            FDataBase(db).addUser(email, pas)
             return redirect("login")
+        else:
+            flash("Введите корректные данные")
     return render_template("registr.html")
 
 
@@ -132,13 +140,15 @@ def login():
     db = get_db()
     if request.method == "POST":
         user = FDataBase(db).getUser(request.form.get("email_login"))
-        if user and check_password_hash(user[2], request.form.get("password_login")):
+        if not user:
+            flash("Пользователь не найден")
+        elif check_password_hash(user[2], request.form.get("password_login")):
+            flash("Неверный пароль")
+        else:
             userlogin = UserLogin().create(user)
             rm = True if request.form.get("remember") else False
             login_user(userlogin, remember=rm)
             return redirect("/")
-        else:
-            return flash("Ошибка")
     return render_template("login.html")
 
 
