@@ -17,5 +17,8 @@
             <br>
             <button>Отправить</button>
         </form>
+        {% for m in get_flashed_messages() %}
+            <div class="message">{{m}}</div>
+        {% endfor %}
     </body>
 </html>
