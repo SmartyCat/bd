@@ -2,21 +2,20 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
+        <title>Авторизация</title>
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>Редактирование задачи</title>
         <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}">
     </head>
     <body>
-
         <a href="/" class="btn back-btn">Вернуться на главную</a>
-        <form action="/edit/{{ task_id }}" method="POST" class="task-form">
-            <label for="description">Введите изминения задачи</label>
+        <form action="/login" method="POST">
+            <label>Логин</label><input name="email_login">
             <br>
-            <textarea name="desc" id="desc">{% for i in form_data.desc %}{{i}}{% endfor %}</textarea>
+            <label>Пароль</label><input name="password_login">
             <br>
-            <label>Введите дату дедлайна</label><input name="new_deadline" type="date">
+            <input type="checkbox" name="remember"><label>Сохранить аккаунт?</label>
             <br>
-            <button class="btn-submit-btn">Изменить</button>
+            <button>Отправить</button>
         </form>
         {% for m in get_flashed_messages() %}
             <div class="message">{{m}}</div>

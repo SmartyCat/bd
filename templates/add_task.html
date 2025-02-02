@@ -13,7 +13,7 @@
             <br>
             <textarea name="description" id="description"></textarea>
             <br>
-            <label>Введите дату дедлайна</label><input name="deadline" placeholder="YYYY-MM-DD-HH">
+            <label>Введите дату дедлайна</label><input name="deadline" type="date">
             <button class="btn-submit-btn">Отправить</button>
         </form>
         {% for m in get_flashed_messages() %}
