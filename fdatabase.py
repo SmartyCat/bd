@@ -22,7 +22,7 @@ class FDataBase:
                 ),
             )
             self.__db.commit()
-        except:
+        except sq.DatabaseError as e:
             print("Error")
             return False
 
@@ -30,7 +30,7 @@ class FDataBase:
         try:
             self.__cur.execute(
                 "SELECT id,description, CASE WHEN is_done='0' THEN 'НЕ ВЫПОЛНЕНО' ELSE 'ВЫПОЛНЕНО' END AS result,time,deadline FROM tasks WHERE user_id=? ORDER BY time",
-                (user_id),
+                (user_id,),
             )
             res = self.__cur.fetchall()
             return res
@@ -41,7 +41,7 @@ class FDataBase:
         try:
             self.__cur.execute("DELETE FROM tasks WHERE id=?", (task_id,))
             self.__db.commit()
-        except:
+        except sq.DatabaseError as e:
             print("Error")
             return False
 
@@ -51,8 +51,8 @@ class FDataBase:
                 "UPDATE tasks SET is_done='Выполнено' WHERE id=?", (task_id,)
             )
             self.__db.commit()
-        except:
-            print("Error")
+        except sq.DatabaseError as e:
+            print(e)
             return False
 
     def editTask(self, result, new_deadline, task_id):
@@ -62,8 +62,8 @@ class FDataBase:
                 (result, new_deadline, task_id),
             )
             self.__db.commit()
-        except:
-            print("error")
+        except sq.DatabaseError as e:
+            print(e)
             return False
 
     def getDescription(self, task_id):
@@ -71,8 +71,8 @@ class FDataBase:
             self.__cur.execute("SELECT description FROM tasks WHERE id=?", (task_id,))
             res = self.__cur.fetchone()
             return res
-        except:
-            return False
+        except sq.DatabaseError as e:
+            print(e)
 
     def addUser(self, email, password):
         try:
@@ -87,5 +87,6 @@ class FDataBase:
                 "SELECT * FROM users WHERE email=?", (email,)
             ).fetchone()
             return res
-        except:
+        except sq.DatabaseError as e:
+            print(e)
             return False
