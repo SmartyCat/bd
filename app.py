@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash, request, redirect, session
+from flask import Flask, g, render_template, flash, request, redirect, session,url_for,send_from_directory
 import sqlite3 as sq
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,8 +12,10 @@ from flask_login import (
 from UserLogin import UserLogin
 from fdatabase import FDataBase
 import os
+from werkzeug.utils import secure_filename
 
 
+MAX_CONTENT_LENGTH=1024*1024
 DATABASE = "tasks.db"
 SECRET_KEY = os.urandom(24)
 
@@ -21,7 +23,10 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
+app.config["UPLOAD_FOLDER"]=os.path.join(os.getcwd(),"static","images")
 
+if not os.path.exists(app.config["UPLOAD_FOLDER"]):
+    os.makedirs(app.config["UPLOAD_FOLDER"])
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,11 +63,12 @@ def close_db(error):
 @app.route("/", methods=["POST", "GET"])
 def index():
     db = get_db()
-    if not current_user.is_authenticated:
-        return render_template("unlogin.html")
 
+    
     tasks = FDataBase(db).getTask(current_user.get_id())
-    return render_template("index.html", tasks=tasks)
+     
+    avatar=FDataBase(db).getAva(current_user.get_id())
+    return render_template("index.html", tasks=tasks,avatar=avatar)
 
 
 @app.route("/add", methods=["POST", "GET"])
@@ -142,7 +148,7 @@ def login():
         user = FDataBase(db).getUser(request.form.get("email_login"))
         if not user:
             flash("Пользователь не найден")
-        elif check_password_hash(user[2], request.form.get("password_login")):
+        elif not check_password_hash(user[2], request.form.get("password_login")):
             flash("Неверный пароль")
         else:
             userlogin = UserLogin().create(user)
@@ -152,12 +158,34 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/upload", methods=["POST","GET"])
+def upload():
+    db=get_db()
+    if request.method=="POST":
+        file=request.files.get("file")
+        if file and current_user.verifyExt(file.filename):
+            try:
+                filename=secure_filename(file.filename)
+                file_path=os.path.join(app.config["UPLOAD_FOLDER"],filename)
+                file.save(file_path)
+                res=FDataBase(db).updateUserAvatar(filename,current_user.get_id())
+            except Exception as e:
+                print('Извините но {e}')
+        else:
+            print("oops")
+    return redirect("/")
+
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
+
+@app.route('/static/images/images/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('static/images',filename)
 
 @app.errorhandler(404)
 def page_not_found(error):

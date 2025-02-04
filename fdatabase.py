@@ -76,7 +76,7 @@ class FDataBase:
 
     def addUser(self, email, password):
         try:
-            self.__cur.execute("INSERT INTO users VALUES(Null,?,?)", (email, password))
+            self.__cur.execute("INSERT INTO users VALUES(Null,?,?,Null)", (email, password))
             self.__db.commit()
         except:
             flash("Такой логин уже существует")
@@ -90,3 +90,20 @@ class FDataBase:
         except sq.DatabaseError as e:
             print(e)
             return False
+    def getAva(self,user_id):
+        result=self.__cur.execute("SELECT avatar FROM users WHERE id=? LIMIT 1",(user_id,)).fetchone()
+
+        if not result or result[0] is None:
+            avatar="images/deafault_image.png"
+        else:
+            avatar=f"images/{result[0]}"
+            print("Avatar path: ",avatar)
+        return avatar
+    
+    def updateUserAvatar(self,file_name,user_id):
+        if not file_name:
+            return False
+        self.__cur.execute("UPDATE users SET avatar=? WHERE id=?",(file_name,user_id))
+        self.__db.commit()
+    
+
